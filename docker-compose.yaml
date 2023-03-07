@@ -52,7 +52,7 @@ services:
       - frontend
       - backend
     networks:
-      - sbc
+      - innocalls
 networks:
   innocalls:
 volumes:
