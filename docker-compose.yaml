@@ -16,9 +16,9 @@ services:
     image: "itcsoftnet/innocalls-backend:latest"
     container_name: "backend"
     hostname: backend
-    command: >
-      sh -c "npm run db:seed:all
-      && npm run db:seed:admin"
+    # command: >
+    #   sh -c "npm run db:seed:all
+    #   && npm run db:seed:admin"
     environment:
       - PORT=3001
       - DATABASE_URL=mongodb://innocalls-admin:innocalls-password@mongodb:27017/innocalls?authSource=admin
