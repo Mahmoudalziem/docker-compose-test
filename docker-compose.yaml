@@ -57,3 +57,4 @@ networks:
   innocalls:
 volumes:
   mongodb_data_container:
+  caddy_config:
