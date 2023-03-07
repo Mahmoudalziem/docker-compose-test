@@ -1,0 +1,11 @@
+
+
+# Caddy Serve FrontEnd
+
+:80 {
+
+    reverse_proxy http://frontend:3000
+    
+    reverse_proxy /api/v1/* http://backend:3001
+
+}
