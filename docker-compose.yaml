@@ -3,7 +3,7 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
-    hostname: mongodb
+    hostname: mongodb 
     restart: unless-stopped
     environment:
       MONGO_DATA_DIR: /data/db
@@ -12,13 +12,12 @@ services:
       MONGO_INITDB_DATABASE: innocalls
     volumes:
       - mongodb_data_container:/data/db
-  backend:
+    networks:
+      - production
+  innocalls-backend:
     image: "itcsoftnet/innocalls-backend:latest"
-    container_name: "backend"
+    container_name: "innocalls-backend"
     hostname: backend
-    # command: >
-    #   sh -c "npm run db:seed:all
-    #   && npm run db:seed:admin"
     environment:
       - PORT=3001
       - DATABASE_URL=mongodb://innocalls-admin:innocalls-password@mongodb:27017/innocalls?authSource=admin
@@ -28,15 +27,19 @@ services:
     restart: unless-stopped
     depends_on:
       - mongodb
-  frontend:
+    networks:
+      - production
+  innocalls-frontend:
     image: "itcsoftnet/innocalls-frontend:latest"
-    container_name: "frontend"
+    container_name: "innocalls-frontend"
     hostname: frontend
     environment:
       - NEXT_PUBLIC_API_HOST=/api
     restart: unless-stopped
     depends_on:
-      - backend
+      - innocalls-backend
+    networks:
+      - production
   caddy:
     image: caddy/caddy
     container_name: innocalls-caddy
@@ -49,8 +52,13 @@ services:
       - $PWD/caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_config:/config
     depends_on:
-      - frontend
-      - backend
+      - innocalls-frontend
+      - innocalls-backend
+    networks:
+      - production
 volumes:
   mongodb_data_container:
   caddy_config:
+networks:
+  production:
+  

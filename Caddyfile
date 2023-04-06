@@ -1,0 +1,31 @@
+# Caddy Serve Innocalls
+
+http://innocalls.com http://www.innocalls.com {
+
+    route {
+
+        reverse_proxy http://innocalls-frontend:3000
+    }
+
+    route /api/* {
+            
+        reverse_proxy http://innocalls-backend:3001
+    }
+}
+
+# Caddy Serve JeraSoft
+
+http://portal36.innocalls.com {
+
+    route {
+
+        reverse_proxy http://jerasoft-frontend:3000
+    }
+
+    route /v1/* {
+            
+        reverse_proxy http://jerasoft-backend
+    }
+    
+
+}
